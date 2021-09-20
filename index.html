@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- google fonts  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet"> 
+    <!-- /google fonts  -->
     <link rel="stylesheet" href="css/style.css">
     <title>To do list</title>
 </head>
@@ -12,7 +17,7 @@
         <h1 class="c-title">Todos app</h1>
 
         <div class="l-inputs">
-            <input type="text" name="newTitole" id="newTitole" class="c-input" v-model="newTitole" placeholder="New Task">
+            <input type="text" name="newTitole" id="newTitole" class="c-input" v-model="newTitole" placeholder="Add New Task">
             <input type="date" name="newDueDate" id="newDueDate" class="c-input" v-model="newDueDate">
             <button class="c-btn" @click="addTask(newTitole, newDueDate); resetInput()">Add task</button class="c-btn">
             <button class="c-btn" @click="printDate()">current date</button class="c-btn">
@@ -24,10 +29,10 @@
                 <ul class="l-list">
                     <li v-for="(task, i) in tasks" class="c-task c-task--toDo" v-if="task.state === 'toDo'">
                         <h4 class="c-task__titole">{{task.titole}}</h4>
-                        <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toISOString().substr(0, 10)}}</p>
+                        <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toLocaleDateString()}}</p>
                         <div class="l-row c-task__btns">
-                            <button class="c-btn" @click="removeTask(i)">Remove</button class="c-btn">
-                            <button class="c-btn" @click="changeState(i, 'inProgress')">In Progress</button class="c-btn">
+                            <button class="c-btn c-btn--remove" @click="removeTask(i)">Remove</button class="c-btn">
+                            <button class="c-btn c-btn--move" @click="changeState(i, 'inProgress')">In Progress</button class="c-btn">
                         </div>
                     </li>
                 </ul>
@@ -38,10 +43,10 @@
                 <ul class="l-list">
                     <li v-for="(task, i) in tasks" class="c-task c-task--inProgess" v-if="task.state === 'inProgress'">
                         <h4 class="c-task__titole">{{task.titole}}</h4>
-                        <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toISOString().substr(0, 10)}}</p>
+                        <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toLocaleDateString()}}</p>
                         <div class="l-row c-task__btns">
-                            <button class="c-btn" @click="removeTask(i)">Remove</button class="c-btn">
-                            <button class="c-btn" @click="changeState(i, 'done')">Done</button class="c-btn">
+                            <button class="c-btn c-btn--remove" @click="removeTask(i)">Remove</button class="c-btn">
+                            <button class="c-btn c-btn--move" @click="changeState(i, 'done')">Done</button class="c-btn">
                         </div>
                     </li>
                 </ul>
@@ -53,7 +58,7 @@
                     <li v-for="(task, i) in tasks" class="c-task c-task--done" v-if="task.state === 'done'">
                         <h4 class="c-task__titole">{{task.titole}}</h4>
                         <div class="l-row c-task__btns">
-                            <button class="c-btn" @click="removeTask(i)">Remove</button class="c-btn">
+                            <button class="c-btn c-btn--remove" @click="removeTask(i)">Remove</button class="c-btn">
                         </div>
                     </li>
                 </ul>

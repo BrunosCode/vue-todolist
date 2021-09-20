@@ -11,10 +11,10 @@ const app = new Vue (
         el: "#root",
         data: {
             tasks: [
-                new Task("test0", "2021-10-14"),
-                new Task("test1", "2021-08-14", "inProgress"),
-                new Task("test2", "2021-09-14", "done"),
-                new Task("test3", "2021-09-20", "inProgress"),
+                new Task("Revisione Macchina", "2021-10-14"),
+                new Task("Cambiare finestra della cucina", "2021-08-14", "inProgress"),
+                new Task("Comprare regalo di compleanno", "2021-09-14", "done"),
+                new Task("Questa è la parte più difficile dell'esercizio", "2021-09-20", "inProgress"),
             ],
             currentDate: new Date(),
             // this inputs needs some validation
