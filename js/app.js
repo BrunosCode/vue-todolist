@@ -1,8 +1,8 @@
 class Task {
-    constructor( titole, dueDate ) {
+    constructor( titole, dueDate, state="toDo" ) {
         this.titole = titole;
-        this.dueDate = dueDate;
-        this.state = "toDo";
+        this.dueDate = new Date(dueDate+"T00:00");
+        this.state = state;
     }
 }
 
@@ -11,11 +11,12 @@ const app = new Vue (
         el: "#root",
         data: {
             tasks: [
-                new Task("titole", "dueDate"),
-                new Task("titole1", "dueDate1"),
-                new Task("titole2", "dueDate2"),
-                new Task("titole3", "dueDate3"),
+                new Task("test0", "2021-10-14"),
+                new Task("test1", "2021-08-14", "inProgress"),
+                new Task("test2", "2021-09-14", "done"),
+                new Task("test3", "2021-09-20", "inProgress"),
             ],
+            currentDate: new Date(),
             // this inputs needs some validation
             newTitole: "",
             newDueDate: ""
@@ -35,6 +36,14 @@ const app = new Vue (
             resetInput: function() {
                 this.newTitole = "";
                 this.newDueDate = "";
+            },
+            printDate: function() {
+                console.log(this.currentDate);
+            },
+            isExpired: function(dueDate) {
+                if (this.currentDate.getTime() >= dueDate.getTime()) {
+                    return "c-task__date--expired";
+                }
             }
         }
     }
