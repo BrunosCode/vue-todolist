@@ -9,10 +9,22 @@
 </head>
 <body>
     <main id="root">
+        <h1>Todos app</h1>
+        <div>
+            <input type="text" name="newTitole" id="newTitole" v-model="newTitole" placeholder="New Task">
+            <input type="date" name="newDueDate" id="newDueDate" v-model="newDueDate">
+            <button @click="addTask(newTitole, newDueDate); resetInput()">Add task</button>
+        </div>
+        <div>
+            <h3>To do</h3>
+            <ul v-for="task in tasks">
+                <li>{{task.titole}}, {{task.dueDate}}</li>
+            </ul>
+        </div>
     </main>
     <!-- Vue development version -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <!-- /Vue development version -->
-    <script src="js/main.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
