@@ -3,6 +3,7 @@ class Task {
         this.titole = titole;
         this.dueDate = new Date(dueDate+"T00:00");
         this.state = state;
+        this.index = 0;
     }
 }
 
@@ -19,7 +20,7 @@ const app = new Vue (
             currentDate: new Date(),
             // this inputs needs some validation
             newTitole: "",
-            newDueDate: ""
+            newDueDate: "",
         },
         methods: {
             addTask: function(titole, dueDate) {
@@ -37,8 +38,9 @@ const app = new Vue (
                 this.newTitole = "";
                 this.newDueDate = "";
             },
-            printDate: function() {
-                console.log(this.currentDate);
+            // needs a refactoring: should only filter, the map needs to be moved somewhere else
+            stateFilter: function(chooseState) {
+                return this.tasks.map((el, i) => ({...el, index : i})).filter(task => task.state === chooseState);
             },
             isExpired: function(dueDate) {
                 if (this.currentDate.getTime() >= dueDate.getTime()) {

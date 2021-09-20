@@ -27,12 +27,12 @@
             <div class="l-col">
                 <h2 class="c-title">To do</h2>
                 <ul class="l-list">
-                    <li v-for="(task, i) in tasks" class="c-task c-task--toDo" v-if="task.state === 'toDo'">
+                    <li v-for="(task, i) in stateFilter('toDo')" class="c-task c-task--toDo">
                         <h4 class="c-task__titole">{{task.titole}}</h4>
                         <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toLocaleDateString()}}</p>
                         <div class="l-row c-task__btns">
-                            <button class="c-btn c-btn--remove" @click="removeTask(i)">Remove</button class="c-btn">
-                            <button class="c-btn c-btn--move" @click="changeState(i, 'inProgress')">In Progress</button class="c-btn">
+                            <button class="c-btn c-btn--remove" @click="removeTask(task.index)">Remove</button class="c-btn">
+                            <button class="c-btn c-btn--move" @click="changeState(task.index, 'inProgress')">In Progress</button class="c-btn">
                         </div>
                     </li>
                 </ul>
@@ -41,12 +41,12 @@
             <div class="l-col">
                 <h2 class="c-title">In progress</h2>
                 <ul class="l-list">
-                    <li v-for="(task, i) in tasks" class="c-task c-task--inProgess" v-if="task.state === 'inProgress'">
+                    <li v-for="task in stateFilter('inProgress')" class="c-task c-task--inProgess">
                         <h4 class="c-task__titole">{{task.titole}}</h4>
                         <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toLocaleDateString()}}</p>
                         <div class="l-row c-task__btns">
-                            <button class="c-btn c-btn--remove" @click="removeTask(i)">Remove</button class="c-btn">
-                            <button class="c-btn c-btn--move" @click="changeState(i, 'done')">Done</button class="c-btn">
+                            <button class="c-btn c-btn--remove" @click="removeTask(task.index)">Remove</button class="c-btn">
+                            <button class="c-btn c-btn--move" @click="changeState(task.index, 'done')">Done</button class="c-btn">
                         </div>
                     </li>
                 </ul>
@@ -55,10 +55,11 @@
             <div class="l-col">
                 <h2 class="c-title">Done</h2>
                 <ul class="l-list">
-                    <li v-for="(task, i) in tasks" class="c-task c-task--done" v-if="task.state === 'done'">
+                    <li v-for="task in stateFilter('done')" class="c-task c-task--done">
                         <h4 class="c-task__titole">{{task.titole}}</h4>
                         <div class="l-row c-task__btns">
-                            <button class="c-btn c-btn--remove" @click="removeTask(i)">Remove</button class="c-btn">
+                            <button class="c-btn c-btn--remove" @click="removeTask(task.index)">Remove</button class="c-btn">
+                                <button class="c-btn c-btn--move" @click="changeState(task.index, 'toDo')">To do</button class="c-btn">
                         </div>
                     </li>
                 </ul>
