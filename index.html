@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet"> 
     <!-- /google fonts  -->
+    <!-- font awesome  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- /font awesome  -->
     <link rel="stylesheet" href="css/style.css">
     <title>To do list</title>
 </head>
@@ -26,13 +29,15 @@
         <div class="l-row">
             <div class="l-col">
                 <h2 class="c-title">To do</h2>
-                <ul class="l-list">
-                    <li v-for="(task, i) in stateFilter('toDo')" class="c-task c-task--toDo">
-                        <h4 class="c-task__titole">{{task.titole}}</h4>
-                        <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toLocaleDateString()}}</p>
+                <ul class="c-list">
+                    <li v-for="(task, i) in toDos" class="l-row c-task c-task--toDo">
+                        <div class="c-task__info">
+                            <h4 class="c-task__titole">{{task.titole}}</h4>
+                            <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toLocaleDateString()}}</p>
+                        </div>
                         <div class="l-row c-task__btns">
-                            <button class="c-btn c-btn--remove" @click="removeTask(task.index)">Remove</button class="c-btn">
-                            <button class="c-btn c-btn--move" @click="changeState(task.index, 'inProgress')">In Progress</button class="c-btn">
+                            <button class="c-task__btn c-task__btn--move" @click="changeState(task.index, 'inProgress')"><i class="fas fa-arrow-right"></i></button class="c-btn">
+                            <button class="c-task__btn c-task__btn--remove" @click="removeTask(task.index)"><i class="fas fa-times"></i></button class="c-btn">
                         </div>
                     </li>
                 </ul>
@@ -40,13 +45,16 @@
 
             <div class="l-col">
                 <h2 class="c-title">In progress</h2>
-                <ul class="l-list">
-                    <li v-for="task in stateFilter('inProgress')" class="c-task c-task--inProgess">
-                        <h4 class="c-task__titole">{{task.titole}}</h4>
-                        <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toLocaleDateString()}}</p>
+                <ul class="c-list">
+                    <li v-for="task in inProgress" class="l-row c-task c-task--inProgess">
+                        <div class="c-task__info">
+                            <h4 class="c-task__titole">{{task.titole}}</h4>
+                            <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toLocaleDateString()}}</p>
+                        </div>
                         <div class="l-row c-task__btns">
-                            <button class="c-btn c-btn--remove" @click="removeTask(task.index)">Remove</button class="c-btn">
-                            <button class="c-btn c-btn--move" @click="changeState(task.index, 'done')">Done</button class="c-btn">
+                            <button class="c-task__btn c-task__btn--move" @click="changeState(task.index, 'toDo')"><i class="fas fa-arrow-left"></i></button class="c-btn">
+                            <button class="c-task__btn c-task__btn--move" @click="changeState(task.index, 'done')"><i class="fas fa-arrow-right"></i></button class="c-btn">
+                            <button class="c-task__btn c-task__btn--remove" @click="removeTask(task.index)"><i class="fas fa-times"></i></button class="c-btn">
                         </div>
                     </li>
                 </ul>
@@ -54,12 +62,14 @@
 
             <div class="l-col">
                 <h2 class="c-title">Done</h2>
-                <ul class="l-list">
-                    <li v-for="task in stateFilter('done')" class="c-task c-task--done">
-                        <h4 class="c-task__titole">{{task.titole}}</h4>
+                <ul class="c-list">
+                    <li v-for="task in done" class="l-row c-task c-task--done">
+                        <div class="c-task__info">
+                            <h4 class="c-task__titole">{{task.titole}}</h4>
+                        </div>
                         <div class="l-row c-task__btns">
-                            <button class="c-btn c-btn--remove" @click="removeTask(task.index)">Remove</button class="c-btn">
-                                <button class="c-btn c-btn--move" @click="changeState(task.index, 'toDo')">To do</button class="c-btn">
+                            <button class="c-task__btn c-task__btn--move" @click="changeState(task.index, 'inProgress')"><i class="fas fa-arrow-left"></i></button class="c-btn">
+                            <button class="c-task__btn c-task__btn--remove" @click="removeTask(task.index)"><i class="fas fa-times"></i></button class="c-btn">
                         </div>
                     </li>
                 </ul>

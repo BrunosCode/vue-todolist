@@ -22,11 +22,21 @@ const app = new Vue (
             newTitole: "",
             newDueDate: "",
         },
+        computed: {
+            toDos: function() {
+                return this.tasks.map((el, i) => ({...el, index : i})).filter(task => task.state === "toDo")
+            },
+            inProgress: function() {
+                return this.tasks.map((el, i) => ({...el, index : i})).filter(task => task.state === "inProgress")
+            },
+            done: function() {
+                return this.tasks.map((el, i) => ({...el, index : i})).filter(task => task.state === "done")
+            }
+        },
         methods: {
             addTask: function(titole, dueDate) {
                 this.tasks.push(new Task(titole, dueDate));
             },
-            // chenge the task list
             changeState: function(taskIndex, newState) {
                 this.tasks[taskIndex].state = newState;
             },
@@ -38,10 +48,10 @@ const app = new Vue (
                 this.newTitole = "";
                 this.newDueDate = "";
             },
-            // needs a refactoring: should only filter, the map needs to be moved somewhere else
-            stateFilter: function(chooseState) {
-                return this.tasks.map((el, i) => ({...el, index : i})).filter(task => task.state === chooseState);
-            },
+            // ### needs a refactoring: should only filter, the map needs to be moved somewhere else
+            // stateFilter: function(chooseState) {
+            //     return this.tasks.map((el, i) => ({...el, index : i})).filter(task => task.state === chooseState);
+            // },
             isExpired: function(dueDate) {
                 if (this.currentDate.getTime() >= dueDate.getTime()) {
                     return "c-task__date--expired";
