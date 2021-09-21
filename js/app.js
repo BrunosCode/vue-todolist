@@ -4,6 +4,7 @@ class Task {
         this.dueDate = new Date(dueDate+"T00:00");
         this.state = state;
         this.index = 0;
+        this.changeMode = false;
     }
 }
 
@@ -48,14 +49,16 @@ const app = new Vue (
                 this.newTitole = "";
                 this.newDueDate = "";
             },
-            // ### needs a refactoring: should only filter, the map needs to be moved somewhere else
-            // stateFilter: function(chooseState) {
-            //     return this.tasks.map((el, i) => ({...el, index : i})).filter(task => task.state === chooseState);
-            // },
             isExpired: function(dueDate) {
                 if (this.currentDate.getTime() >= dueDate.getTime()) {
                     return "c-task__date--expired";
                 }
+            },
+            changeInfo: function(i) {
+                this.tasks[i].changeMode = (this.tasks[i].changeMode)? false : true;
+            },
+            changeModeOn: function(i) {
+                return this.tasks[i].changeMode;
             }
         }
     }

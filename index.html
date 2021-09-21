@@ -23,54 +23,75 @@
             <input type="text" name="newTitole" id="newTitole" class="c-input" v-model="newTitole" placeholder="Add New Task">
             <input type="date" name="newDueDate" id="newDueDate" class="c-input" v-model="newDueDate">
             <button class="c-btn" @click="addTask(newTitole, newDueDate); resetInput()">Add task</button class="c-btn">
-            <button class="c-btn" @click="printDate()">current date</button class="c-btn">
         </div>
 
         <div class="l-row">
-            <div class="l-col">
+            <div>
                 <h2 class="c-title">To do</h2>
                 <ul class="c-list">
-                    <li v-for="(task, i) in toDos" class="l-row c-task c-task--toDo">
+                    <li v-for="task in toDos" :key="task.index" class="l-row c-task c-task--toDo">
                         <div class="c-task__info">
-                            <h4 class="c-task__titole">{{task.titole}}</h4>
-                            <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toLocaleDateString()}}</p>
+                            <div  class="l-col" v-if="changeModeOn(task.index)">
+                                <input type="text" name="newTitole" id="newTitole" class="c-input" v-model="task.titole">
+                                <input type="date" name="newDueDate" id="newDueDate" class="c-input" v-model="task.dueDate">
+                            </div>
+                            <div v-else>
+                                <h4 class="c-task__titole">{{task.titole}}</h4>
+                                <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toLocaleDateString()}}</p>
+                            </div>
                         </div>
                         <div class="l-row c-task__btns">
-                            <button class="c-task__btn c-task__btn--move" @click="changeState(task.index, 'inProgress')"><i class="fas fa-arrow-right"></i></button class="c-btn">
                             <button class="c-task__btn c-task__btn--remove" @click="removeTask(task.index)"><i class="fas fa-times"></i></button class="c-btn">
+                            <button class="c-task__btn c-task__btn--change" @click="changeInfo(task.index)"><i class="fas fa-file-invoice"></i></button class="c-btn">
+                            <button class="c-task__btn c-task__btn--move" @click="changeState(task.index, 'inProgress')"><i class="fas fa-arrow-right"></i></button class="c-btn">
                         </div>
                     </li>
                 </ul>
             </div>
 
-            <div class="l-col">
+            <div>
                 <h2 class="c-title">In progress</h2>
                 <ul class="c-list">
-                    <li v-for="task in inProgress" class="l-row c-task c-task--inProgess">
+                    <li v-for="task in inProgress" :key="task.index" class="l-row c-task c-task--inProgess">
                         <div class="c-task__info">
-                            <h4 class="c-task__titole">{{task.titole}}</h4>
-                            <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toLocaleDateString()}}</p>
+                            <div  class="l-col" v-if="changeModeOn(task.index)">
+                                <input type="text" name="newTitole" id="newTitole" class="c-input" v-model="task.titole">
+                                <input type="date" name="newDueDate" id="newDueDate" class="c-input" v-model="task.dueDate">
+                            </div>
+                            <div v-else>
+                                <h4 class="c-task__titole">{{task.titole}}</h4>
+                                <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toLocaleDateString()}}</p>
+                            </div>
                         </div>
                         <div class="l-row c-task__btns">
+                            <button class="c-task__btn c-task__btn--remove" @click="removeTask(task.index)"><i class="fas fa-times"></i></button class="c-btn">
+                            <button class="c-task__btn c-task__btn--change" @click="changeInfo(task.index)"><i class="fas fa-file-invoice"></i></button class="c-btn">
                             <button class="c-task__btn c-task__btn--move" @click="changeState(task.index, 'toDo')"><i class="fas fa-arrow-left"></i></button class="c-btn">
                             <button class="c-task__btn c-task__btn--move" @click="changeState(task.index, 'done')"><i class="fas fa-arrow-right"></i></button class="c-btn">
-                            <button class="c-task__btn c-task__btn--remove" @click="removeTask(task.index)"><i class="fas fa-times"></i></button class="c-btn">
                         </div>
                     </li>
                 </ul>
             </div>
 
-            <div class="l-col">
+            <div>
                 <h2 class="c-title">Done</h2>
                 <ul class="c-list">
-                    <li v-for="task in done" class="l-row c-task c-task--done">
+                    <li v-for="task in done" :key="task.index" class="l-row c-task c-task--done">
                         <div class="c-task__info">
-                            <h4 class="c-task__titole">{{task.titole}}</h4>
+                            <div  class="l-col" v-if="changeModeOn(task.index)">
+                                <input type="text" name="newTitole" id="newTitole" class="c-input" v-model="task.titole">
+                                <input type="date" name="newDueDate" id="newDueDate" class="c-input" v-model="task.dueDate">
+                            </div>
+                            <div v-else>
+                                <h4 class="c-task__titole">{{task.titole}}</h4>
+                                <p class="c-task__date" :class="isExpired(task.dueDate)">Due to: {{task.dueDate.toLocaleDateString()}}</p>
+                            </div>
                         </div>
                         <div class="l-row c-task__btns">
-                            <button class="c-task__btn c-task__btn--move" @click="changeState(task.index, 'inProgress')"><i class="fas fa-arrow-left"></i></button class="c-btn">
                             <button class="c-task__btn c-task__btn--remove" @click="removeTask(task.index)"><i class="fas fa-times"></i></button class="c-btn">
-                        </div>
+                            <button class="c-task__btn c-task__btn--change" @click="changeInfo(task.index)"><i class="fas fa-file-invoice"></i></button class="c-btn">
+                            <button class="c-task__btn c-task__btn--move" @click="changeState(task.index, 'inProgress')"><i class="fas fa-arrow-left"></i></button class="c-btn">
+                                </div>
                     </li>
                 </ul>
             </div>
